@@ -20,13 +20,14 @@ game_id integer,
 genre text,
 primary key (game_id, genre),
 foreign key (game_id) references games(id),
-foreign key (genre) references genres(genre));
+foreign key (genre) references genres(genre)
 );
 CREATE TABLE game_platforms(
 game_id integer,
 platforn text,
 primary key (game_id, platforn),
 foreign key (game_id) references games(id),
-foreign key (platform) references platforms(genre));
+foreign key (platform) references platforms(genre)
 );
+
 

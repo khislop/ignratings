@@ -56,7 +56,7 @@ while boo == 1:
         print(title, platform, score)
     
         print("\n1.Create New Game\n2.Quit\n")
-        choice = raw_input('Enter Choice: ')
+        choice = input('Enter Choice: ')
     
         if choice == "2":
             boo = 0;

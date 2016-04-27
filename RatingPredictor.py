@@ -39,8 +39,8 @@ while boo == 1:
     
 	# prompt user for inputs
     title = input('\nEnter title of your game: ')
-	platform = input('Enter platform for your game: ')
-	genres = input('Enter genres for your game in the form of: genre, genre, ...: ')
+    platform = input('Enter platform for your game: ')
+    genres = input('Enter genres for your game in the form of: genre, genre, ...: ')
 	
 	#query database for 
     query = """SELECT games.title, games.platform, games.score

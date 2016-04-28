@@ -34,47 +34,71 @@ except pg8000.Error as e:
 db.autocommit = True
 cursor = db.cursor()
 
-boo = 1
-while boo == 1:
-    
-    # prompt user for inputs
-    title = raw_input('\nEnter title of your game: ')
-    platform = raw_input('Enter platform for your game: ')
-    genres = raw_input('Enter genres for your game in the form of: genre, genre, ...: ')
-	
-    #query database for 
-    query = """SELECT games.title, games.platform, games.score
-		   FROM games
-		   WHERE games.title LIKE %s"""  
+# Dictionary object that maps id's to their game object. This is usefull for 
+games = dict()
 
-    cursor.execute(query, ('%%' + title + '%%',))
 
-    results = cursor.fetchall()
-    for row in results:
-        print("\nResult:")
-        title, platform, score = row
-        print(title, platform, score)
+# query database for game info
+query = """SELECT games.id games.title, games.platform, games.score
+               FROM games"""
+
+cursor.execute(query)
+
+results = cursor.fetchall()
+print("\nResult:")
+for row in results:
+    game_id, title, platform, score = row
+    print(game_id, title, platform, score)
+    games[game_id] = Game(title, platform, score)
+
+# query database for genre info
+query = """SELECT game_id, genre
+               FROM genre"""  
+
+cursor.execute(query)
+
+results = cursor.fetchall()
+print("\nResult:")
+for row in results:
+    game_id, gen = row
+    print(game_id, genre)
+    games[game_id].genre.append(gen)
+
     
-        print("\n1.Create New Game\n2.Quit\n")
-        choice = raw_input('Enter Choice: ')
+
     
-        if choice == "2":
-            boo = 0;
 cursor.close()
 db.close()
 
 
+#########################################TO DO#############################################
+# The games variable is already populated with key = game_id and value = game object which contains all of the data you should need.
+
+# Should return a dictionary (map) with each word in the tiltes with it's corisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
+def weightNames():
+
+# Should return a dictionary with each genre and it's corisponding average score.
+def weightGenres():
+
+# Should return a dictionary with each platform and it's corisponding average score.
+def weightPlatforms():
+
+# Should return a dictionary with the keys being a tuple of (genre, platform) and values being the score. This gives us a much better prediction then just averaging the genres and platforms.
+# It is a little weird to have a tuple as a key but Python suports this and it will make lookup really easy. An example of thie I got to work:
+# weightPG[('Action', 'Wii')] = "Woot"
+def weightPlatGenre():
+
+    
+############################################################################################
+    
+
+
+
+
 class Game:
-    def __init__(self, title, platform, score, genres):
+    def __init__(self, title, platform, score, genres=list()):
         self.title = title
         self.platfrom = platform
         self.score = float(score)
         self.genres = genres
-      
 
-    def getTitle(self):
-        return self.title
-
-    def printTitle(self):
-        print self.title
-    

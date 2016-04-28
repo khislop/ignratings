@@ -37,12 +37,12 @@ cursor = db.cursor()
 boo = 1
 while boo == 1:
     
-	# prompt user for inputs
+    # prompt user for inputs
     title = raw_input('\nEnter title of your game: ')
     platform = raw_input('Enter platform for your game: ')
     genres = raw_input('Enter genres for your game in the form of: genre, genre, ...: ')
 	
-	#query database for 
+    #query database for 
     query = """SELECT games.title, games.platform, games.score
 		   FROM games
 		   WHERE games.title LIKE %s"""  
@@ -62,4 +62,19 @@ while boo == 1:
             boo = 0;
 cursor.close()
 db.close()
- 
+
+
+class Game:
+    def __init__(self, title, platform, score, genres):
+        self.title = title
+        self.platfrom = platform
+        self.score = float(score)
+        self.genres = genres
+      
+
+    def getTitle(self):
+        return self.title
+
+    def printTitle(self):
+        print self.title
+    

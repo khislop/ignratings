@@ -39,7 +39,7 @@ games = dict()
 
 
 # query database for game info
-query = """SELECT games.id games.title, games.platform, games.score
+query = """SELECT games.id, games.title, games.platform, games.score
                FROM games"""
 
 cursor.execute(query)
@@ -74,7 +74,7 @@ db.close()
 #########################################TO DO#############################################
 # The games variable is already populated with key = game_id and value = game object which contains all of the data you should need.
 
-# Should return a dictionary (map) with each word in the tiltes with it's corisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
+# Should return a dictionary (map) with each word in the titles with it's corisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
 def weightNames():
     return
     
@@ -90,6 +90,22 @@ def weightPlatforms():
 # It is a little weird to have a tuple as a key but Python suports this and it will make lookup really easy. An example of thie I got to work:
 # weightPG[('Action', 'Wii')] = "Woot"
 def weightPlatGenre():
+    return
+
+# Should return a float based on the expected score of a game given the name.
+def scoreName(name):
+    return
+
+# Should return a float based on the expected score of a game given the genre.
+def scoreGenre(genre):
+    return
+
+# Should return a float based on the expected score of a game given the platform.
+def scorePlatform(platform):
+    return
+
+# Should return a float based on the expected score of a game given the genre and platform.
+def scorePlatGenre(platform, genre):
     return
     
     

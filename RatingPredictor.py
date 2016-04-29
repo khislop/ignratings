@@ -14,6 +14,19 @@
 
 import getpass
 import pg8000
+
+#######################CLASS DECLERATIONS NEED TO COME FIRST##################
+class Game:
+    def __init__(self, title, platform, score, genres=list()):
+        self.title = title
+        self.platfrom = platform
+        self.score = float(score)
+        self.genres = genres
+
+
+#############################################################################
+
+
 	
 login = raw_input('login: ')
 secret = getpass.getpass('password: ')
@@ -31,7 +44,6 @@ except pg8000.Error as e:
 
 # uncomment next line if you want every insert/update/delete to immediately
 # be applied; you can remove all db.commit() and db.rollback() statements
-db.autocommit = True
 cursor = db.cursor()
 
 # Dictionary object that maps id's to their game object. This is usefull for 
@@ -40,7 +52,7 @@ games = dict()
 
 # query database for game info
 query = """SELECT games.id, games.title, games.platform, games.score
-               FROM games"""
+               FROM games;"""
 
 cursor.execute(query)
 
@@ -48,12 +60,12 @@ results = cursor.fetchall()
 print("\nResult:")
 for row in results:
     game_id, title, platform, score = row
-    print(game_id, title, platform, score)
+    #print(game_id, title, platform, score)
     games[game_id] = Game(title, platform, score)
 
 # query database for genre info
 query = """SELECT game_id, genre
-               FROM genre"""  
+               FROM game_genres;"""  
 
 cursor.execute(query)
 
@@ -61,14 +73,19 @@ results = cursor.fetchall()
 print("\nResult:")
 for row in results:
     game_id, gen = row
-    print(game_id, genre)
-    games[game_id].genre.append(gen)
+    #print(game_id, gen)
+    games[game_id].genres.append(gen)
 
     
-
+#for key, value in games.iteritems():
+#    print("\n" + value.title + "Generes:")
+#    for j in value.genres:
+#        print(j)
     
 cursor.close()
 db.close()
+
+
 
 
 #########################################TO DO#############################################
@@ -115,10 +132,4 @@ def scorePlatGenre(platform, genre):
 
 
 
-class Game:
-    def __init__(self, title, platform, score, genres=list()):
-        self.title = title
-        self.platfrom = platform
-        self.score = float(score)
-        self.genres = genres
 

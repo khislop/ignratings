@@ -17,7 +17,7 @@ import pg8000
 
 #######################CLASS DECLERATIONS NEED TO COME FIRST##################
 class Game:
-    def __init__(self, title, platform, score, genres=list()):
+    def __init__(self, title, platform, score, genres):
         self.title = title
         self.platfrom = platform
         self.score = float(score)
@@ -57,28 +57,29 @@ query = """SELECT games.id, games.title, games.platform, games.score
 cursor.execute(query)
 
 results = cursor.fetchall()
-print("\nResult:")
 for row in results:
     game_id, title, platform, score = row
     #print(game_id, title, platform, score)
-    games[game_id] = Game(title, platform, score)
+    games[game_id] = Game(title, platform, score, list())
 
 # query database for genre info
 query = """SELECT game_id, genre
-               FROM game_genres;"""  
+               FROM game_genres
+               ORDER BY game_id;"""  
 
 cursor.execute(query)
 
 results = cursor.fetchall()
-print("\nResult:")
 for row in results:
     game_id, gen = row
     #print(game_id, gen)
     games[game_id].genres.append(gen)
+    #print(str(game_id) + " -- " + gen)
 
     
 #for key, value in games.iteritems():
 #    print("\n" + value.title + "Generes:")
+#    print(len(value.genres))
 #    for j in value.genres:
 #        print(j)
     

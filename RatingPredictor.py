@@ -15,7 +15,7 @@
 import getpass
 import pg8000
 
-#######################CLASS DECLERATIONS NEED TO COME FIRST##################
+#######################CLASS DECLARATIONS NEED TO COME FIRST##################
 class Game:
     def __init__(self, title, platform, score, genres):
         self.title = title
@@ -28,7 +28,7 @@ class Game:
 
 
 	
-login = raw_input('login: ')
+login = input('login: ')
 secret = getpass.getpass('password: ')
 
 credentials = {'user'    : login, 
@@ -42,6 +42,8 @@ except pg8000.Error as e:
     print('Database error: ', e.args[2])
     #exit()
 
+	
+print("Connection Established, fetching data...")
 # uncomment next line if you want every insert/update/delete to immediately
 # be applied; you can remove all db.commit() and db.rollback() statements
 cursor = db.cursor()
@@ -92,9 +94,12 @@ db.close()
 #########################################TO DO#############################################
 # The games variable is already populated with key = game_id and value = game object which contains all of the data you should need.
 
-# Should return a dictionary (map) with each word in the titles with it's corisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
+# Should return a dictionary (map) with each word in the titles with it's corrisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
 def weightNames():
-    return
+    result = dict()
+    for i in xrange(len(result)):
+        result[games[i].title] = games[i].score
+    return result
     
 # Should return a dictionary with each genre and it's corisponding average score.
 def weightGenres():

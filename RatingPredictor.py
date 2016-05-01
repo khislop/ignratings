@@ -19,7 +19,7 @@ import pg8000
 class Game:
     def __init__(self, title, platform, score, genres):
         self.title = title
-        self.platfrom = platform
+        self.platform = platform
         self.score = float(score)
         self.genres = genres
 

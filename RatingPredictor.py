@@ -28,7 +28,7 @@ class Game:
 
 
 	
-login = raw_input('login: ')
+login = input('login: ')
 secret = getpass.getpass('password: ')
 
 credentials = {'user'    : login, 
@@ -84,7 +84,18 @@ for row in results:
 #    print(len(value.genres))
 #    for j in value.genres:
 #        print(j)
+boo = 1
+while boo == 1:
+    choice = input("\n1.New Game\n2. Quit\nData loaded, Enter Choice: ")
     
+    if choice == "1":
+        title = input("\nEnter the name of your game: ")
+        platform = input("Enter platform of your game: ")
+        genres = input("Enter genres fo your game in the form of: gerne, genre, ...: ")
+        print("Your game's score will probably be 0.0")
+
+    if choice == "2":
+        boo = 2
 cursor.close()
 db.close()
 
@@ -97,13 +108,24 @@ db.close()
 # Should return a dictionary (map) with each word in the titles with it's corrisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
 def weightNames():
     result = dict()
-    for i in xrange(len(result)):
-        result[games[i].title] = games[i].score
+    for key, value in games.iteritems():
+        if value.title in result:
+            result[value.title].append(value.score)
+        else:
+            result[value.title] = list()
+            result[value.title].append(value.score)
     return result
     
 # Should return a dictionary with each genre and it's corisponding average score.
 def weightGenres():
-    return
+    result = dict()
+    for key, value in games.iteritems():
+        if value.genre in result:
+            result[value.genre].append(value.score)
+        else:
+            result[value.genre] = list()
+            result[value.genre].append(value.score)
+    return result
     
 # Should return a dictionary with each platform and it's corisponding average score.
 def weightPlatforms():
@@ -114,8 +136,6 @@ def weightPlatforms():
         else:
             result[value.platform] = list()
             result[value.platform].append(value.score)
-            
-    
     return result
     
 # Should return a dictionary with the keys being a tuple of (genre, platform) and values being the score. This gives us a much better prediction then just averaging the genres and platforms.

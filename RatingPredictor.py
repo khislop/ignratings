@@ -107,7 +107,16 @@ def weightGenres():
     
 # Should return a dictionary with each platform and it's corisponding average score.
 def weightPlatforms():
-    return
+    result = dict()
+    for key, value in games.iteritems():
+        if value.platform in result:
+            result[value.platform].append(value.score)
+        else:
+            result[value.platform] = list()
+            result[value.platform].append(value.score)
+            
+    
+    return result
     
 # Should return a dictionary with the keys being a tuple of (genre, platform) and values being the score. This gives us a much better prediction then just averaging the genres and platforms.
 # It is a little weird to have a tuple as a key but Python suports this and it will make lookup really easy. An example of thie I got to work:

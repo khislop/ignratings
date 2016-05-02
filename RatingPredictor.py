@@ -28,7 +28,7 @@ class Game:
 
 
 	
-login = input('login: ')
+login = raw_input('login: ')
 secret = getpass.getpass('password: ')
 
 credentials = {'user'    : login, 

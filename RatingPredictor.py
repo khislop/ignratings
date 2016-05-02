@@ -130,6 +130,54 @@ def scorePlatGenre(genre, platform):
     result = scoreSum / len(scores[genre, platform])
     return result
     
+def getBestGenre():
+    scores = weightGenres()
+    maxScore = 0
+    maxGenre = 'None'
+    for key, value in scores.iteritems():
+        if scoreGenre(key) > maxScore:
+            maxScore = scoreGenre(key)
+            maxGenre = key
+    return [maxGenre, maxScore]
+
+def getBestPlatform():
+    scores = weightPlatforms()
+    maxScore = 0
+    maxGenre = 'None'
+    for key, value in scores.iteritems():
+        if scorePlatform(key) > maxScore:
+            maxScore = scorePlatform(key)
+            maxGenre = key
+    return [maxGenre, maxScore]
+
+def getBestPlatGenre():
+    scores = weightPlatGenre()
+    maxScore = 0
+    maxGenre = 'None'
+    for key, value in scores.iteritems():
+        if scorePlatGenre(key[0], key[1]) > maxScore:
+            maxScore = scorePlatGenre(key[0], key[1])
+            maxGenre = key
+    return [maxGenre, maxScore]
+ 
+def getBestName():
+    scores = weightNames()
+    maxScore = 0
+    maxGenre = 'None'
+    for key in scores:
+        if scoreName(key) > maxScore:
+            maxScore = scoreName(key)
+            maxGenre = key
+    return [maxGenre, maxScore]
+
+
+   
+#    print("\n" + value.title + "Generes:")
+#    print(len(value.genres))
+#    for j in value.genres:
+#        print(j)
+
+
     
 ############################################################################################
 	

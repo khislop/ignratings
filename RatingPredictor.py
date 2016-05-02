@@ -28,11 +28,11 @@ class Game:
 
 
 	
-#login = raw_input('login: ')
-#secret = getpass.getpass('password: ')
+login = raw_input('login: ')
+secret = getpass.getpass('password: ')
 
-credentials = {'user'    : 'khislop', 
-               'password': 'kelton052194', 
+credentials = {'user'    : login, 
+               'password': secret, 
                'database': 'csci403',
                'host'    : 'flowers.mines.edu'}
 

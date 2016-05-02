@@ -84,22 +84,35 @@ for row in results:
 #    print(len(value.genres))
 #    for j in value.genres:
 #        print(j)
-'''
+
 boo = 1
 while boo == 1:
-    choice = input("\n1.New Game\n2. Quit\nData loaded, Enter Choice: ")
-    
+    choice = raw_input("\n1.New Game\n2. Quit\nData loaded, Enter Choice: ")
+    nameScore = 0
+    gpScore = 0
     if choice == "1":
-        title = input("\nEnter the name of your game: ")
-        platform = input("Enter platform of your game: ")
-        genres = input("Enter genres fo your game in the form of: gerne, genre, ...: ")
-        print("Your game's score will probably be 0.0")
-
+        title = raw_input("\nEnter the name of your game: ")
+        platform = raw_input("Enter platform of your game: ")
+        genre = raw_input("Enter genre for your game: ")
+        if title in weightNames():
+            nameScore = scoreName(title)
+        else:
+            nameScore = 5
+            print "Name was not found in database"
+			
+        if (genre, platform) in weightPlatGenre():
+            gpScore = scorePlatGenre(genre, platform)
+        else:
+            gpScore = 5
+            print "Platform and Genre combination was not found in database"
+			
+        print "Your game's score will probably be", str((nameScore + gpScore) / 2)
+        
     if choice == "2":
         boo = 2
 cursor.close()
 db.close()
-'''
+
 
 
 
@@ -171,7 +184,7 @@ def scoreName(name):
             wordScores.append(nameSum / len(nameScores[word]))
             
     if len(wordScores) == 0:
-        print "Error, no names similar"
+        print("Error, no names similar")
         return -1
     
     scoreSum = 0

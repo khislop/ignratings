@@ -26,97 +26,7 @@ class Game:
 
 #############################################################################
 
-
-	
-login = raw_input('login: ')
-secret = getpass.getpass('password: ')
-
-credentials = {'user'    : login, 
-               'password': secret, 
-               'database': 'csci403',
-               'host'    : 'flowers.mines.edu'}
-
-try:
-    db = pg8000.connect(**credentials)
-except pg8000.Error as e:
-    print('Database error: ', e.args[2])
-    #exit()
-
-	
-print("Connection Established, fetching data...")
-# uncomment next line if you want every insert/update/delete to immediately
-# be applied; you can remove all db.commit() and db.rollback() statements
-cursor = db.cursor()
-
-# Dictionary object that maps id's to their game object. This is usefull for 
-games = dict()
-
-
-# query database for game info
-query = """SELECT games.id, games.title, games.platform, games.score
-               FROM games;"""
-
-cursor.execute(query)
-
-results = cursor.fetchall()
-for row in results:
-    game_id, title, platform, score = row
-    #print(game_id, title, platform, score)
-    games[game_id] = Game(title, platform, score, list())
-
-# query database for genre info
-query = """SELECT game_id, genre
-               FROM game_genres
-               ORDER BY game_id;"""  
-
-cursor.execute(query)
-
-results = cursor.fetchall()
-for row in results:
-    game_id, gen = row
-    #print(game_id, gen)
-    games[game_id].genres.append(gen)
-    #print(str(game_id) + " -- " + gen)
-
-    
-#for key, value in games.iteritems():
-#    print("\n" + value.title + "Generes:")
-#    print(len(value.genres))
-#    for j in value.genres:
-#        print(j)
-
-boo = 1
-while boo == 1:
-    choice = raw_input("\n1.New Game\n2. Quit\nData loaded, Enter Choice: ")
-    nameScore = 0
-    gpScore = 0
-    if choice == "1":
-        title = raw_input("\nEnter the name of your game: ")
-        platform = raw_input("Enter platform of your game: ")
-        genre = raw_input("Enter genre for your game: ")
-        if title in weightNames():
-            nameScore = scoreName(title)
-        else:
-            nameScore = 5
-            print "Name was not found in database"
-			
-        if (genre, platform) in weightPlatGenre():
-            gpScore = scorePlatGenre(genre, platform)
-        else:
-            gpScore = 5
-            print "Platform and Genre combination was not found in database"
-			
-        print "Your game's score will probably be", str((nameScore + gpScore) / 2)
-        
-    if choice == "2":
-        boo = 2
-cursor.close()
-db.close()
-
-
-
-
-#########################################TO DO#############################################
+#########################################FUNCTIONS#############################################
 # The games variable is already populated with key = game_id and value = game object which contains all of the data you should need.
 
 # Should return a dictionary (map) with each word in the titles with it's corrisponding score. We can then average the scores of the words in a game title to get it's expected score based on name.
@@ -222,6 +132,88 @@ def scorePlatGenre(genre, platform):
     
     
 ############################################################################################
-    
-test = scoreName('The End of the World')
+	
+login = raw_input('login: ')
+secret = getpass.getpass('password: ')
 
+credentials = {'user'    : login, 
+               'password': secret, 
+               'database': 'csci403',
+               'host'    : 'flowers.mines.edu'}
+
+try:
+    db = pg8000.connect(**credentials)
+except pg8000.Error as e:
+    print('Database error: ', e.args[2])
+    #exit()
+
+	
+print("Connection Established, fetching data...")
+# uncomment next line if you want every insert/update/delete to immediately
+# be applied; you can remove all db.commit() and db.rollback() statements
+cursor = db.cursor()
+
+# Dictionary object that maps id's to their game object. This is usefull for 
+games = dict()
+
+
+# query database for game info
+query = """SELECT games.id, games.title, games.platform, games.score
+               FROM games;"""
+
+cursor.execute(query)
+
+results = cursor.fetchall()
+for row in results:
+    game_id, title, platform, score = row
+    #print(game_id, title, platform, score)
+    games[game_id] = Game(title, platform, score, list())
+
+# query database for genre info
+query = """SELECT game_id, genre
+               FROM game_genres
+               ORDER BY game_id;"""  
+
+cursor.execute(query)
+
+results = cursor.fetchall()
+for row in results:
+    game_id, gen = row
+    #print(game_id, gen)
+    games[game_id].genres.append(gen)
+    #print(str(game_id) + " -- " + gen)
+
+    
+#for key, value in games.iteritems():
+#    print("\n" + value.title + "Generes:")
+#    print(len(value.genres))
+#    for j in value.genres:
+#        print(j)
+
+boo = 1
+while boo == 1:
+    choice = raw_input("\n1.New Game\n2. Quit\nData loaded, Enter Choice: ")
+    nameScore = 0
+    gpScore = 0
+    if choice == "1":
+        title = raw_input("\nEnter the name of your game: ")
+        platform = raw_input("Enter platform of your game: ")
+        genre = raw_input("Enter genre for your game: ")
+        if title in weightNames():
+            nameScore = scoreName(title)
+        else:
+            nameScore = 5
+            print "Name was not found in database"
+			
+        if (genre, platform) in weightPlatGenre():
+            gpScore = scorePlatGenre(genre, platform)
+        else:
+            gpScore = 5
+            print "Platform and Genre combination was not found in database"
+			
+        print "Your game's score will probably be", str((nameScore + gpScore) / 2)
+        
+    if choice == "2":
+        boo = 2
+cursor.close()
+db.close()
